@@ -34,6 +34,9 @@ Route::group(['prefix'=>'product','as'=>'product.', 'middleware' => 'verified'],
     Route::get('/', [ProductController::class, 'index'])->name('index');
     Route::get('/create', [ProductController::class, 'create'])->name('create');
     Route::post('/store', [ProductController::class, 'store'])->name('store');
+    Route::get('/show/import', [ProductController::class, 'showImport'])->name('show.import');
+    Route::post('/import', [ProductController::class, 'import'])->name('import');
+    Route::get('/import-template/download', [ProductController::class, 'importTemplate'])->name('import.template');
     Route::get('/{id}', [ProductController::class, 'show'])->name('show');
 });
 

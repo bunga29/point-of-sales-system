@@ -38,7 +38,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-    		'code' => 'required',
+    		'code' => ['required', 'unique:categories'],
     		'name' => 'required'
     	]);
  

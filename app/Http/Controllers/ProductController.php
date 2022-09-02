@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Imports\ProductImport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -39,9 +41,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $this->validate($request,[
-    		'code'  => 'required',
+        $validator = $this->validate($request,[
+    		'code'  => ['required', 'unique:products'],
     		'name' => 'required',
             'category_id' => 'required',
             'qty' => 'required',
@@ -49,6 +50,8 @@ class ProductController extends Controller
             'buying_price' => 'required',
             'selling_price' => 'required',
     	]);
+
+        dd($validator);
         Product::create([
             'code'          => $request->code,
             'name'          => $request->name,   
@@ -110,5 +113,28 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function showImport()
+    {
+        return view('product.import');
+    }
+
+    public function importTemplate()
+    {
+        $myFile = storage_path("template/product_import.xlsx");
+        // dd($myFile);
+    	return response()->download($myFile);
+    }
+
+
+    public function import(Request $request)
+    {
+        $file = $request->file('file');
+        $fileName = $file->getClientOriginalName();
+        $file->move('DataProduk', $fileName);
+        Excel::import(new ProductImport, public_path('/DataProduk/'.$fileName));
+        return redirect()->back()->with('successMsg','Proses Import sedang berjalan');
+
     }
 }
