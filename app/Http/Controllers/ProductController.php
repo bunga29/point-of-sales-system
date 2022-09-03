@@ -51,7 +51,7 @@ class ProductController extends Controller
             'selling_price' => 'required',
     	]);
 
-        dd($validator);
+        // dd($validator);
         Product::create([
             'code'          => $request->code,
             'name'          => $request->name,   

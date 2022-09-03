@@ -63,7 +63,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-
+            <div id="barcode">
+                
+            </div>
             <div class="row m-2">
                 <div class="col-lg-6 col-md-4 label ">Kode</div>
                 <div class="col-lg-6 col-md-8" id="product-code"></div>
@@ -128,6 +130,12 @@
                 url: '/product/' + id,
                 dataType: 'json',
                 success: function (data) {
+                    // document.getElementById('barcode').innerHTML = "";
+                    const el = document.createElement('div');
+                    el.classList.add('row', 'm-2', 'justify-content-center');
+                    el.innerHTML = `{!! DNS1D::getBarcodeHTML('` + data['code'] + `', 'C128') !!}`;
+                    const box = document.getElementById('barcode');
+                    box.appendChild(el);
                     $('#detail-modal').modal('show');
                     $('#product-code').text(data['code']);
                     $('#product-name').text(data['name']);
@@ -148,7 +156,7 @@
                     console.log(data);
                     
                 },error:function(){ 
-                    console.log(data['id']);
+                    console.log(data);
                 }
             });
 
