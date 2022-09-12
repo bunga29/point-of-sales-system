@@ -25,9 +25,28 @@
   <link href="{{ asset('assets/vendor/quill/quill.bubble.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/simple-datatables/style.css') }}" rel="stylesheet">
+
+   <!-- BS5.1.1 CSS/JS -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
+
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- BS5.1.1 CSS/JS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Latest BS-Select compiled and minified CSS/JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/css/bootstrap-select.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta2/dist/js/bootstrap-select.min.js"></script>
+  
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.3.1
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -155,44 +174,6 @@
                     <hr class="dropdown-divider">
                     </li>
 
-                    <li class="message-item">
-                    <a href="#">
-                        <img src="assets/img/messages-1.jpg" alt="" class="rounded-circle">
-                        <div>
-                        <h4>Maria Hudson</h4>
-                        <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                        <p>4 hrs. ago</p>
-                        </div>
-                    </a>
-                    </li>
-                    <li>
-                    <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="message-item">
-                    <a href="#">
-                        <img src="assets/img/messages-2.jpg" alt="" class="rounded-circle">
-                        <div>
-                        <h4>Anna Nelson</h4>
-                        <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                        <p>6 hrs. ago</p>
-                        </div>
-                    </a>
-                    </li>
-                    <li>
-                    <hr class="dropdown-divider">
-                    </li>
-
-                    <li class="message-item">
-                    <a href="#">
-                        <img src="assets/img/messages-3.jpg" alt="" class="rounded-circle">
-                        <div>
-                        <h4>David Muldon</h4>
-                        <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                        <p>8 hrs. ago</p>
-                        </div>
-                    </a>
-                    </li>
                     <li>
                     <hr class="dropdown-divider">
                     </li>
@@ -252,9 +233,15 @@
                     </li>
 
                     <li>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
+                    <a class="dropdown-item d-flex align-items-center" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
                         <i class="bi bi-box-arrow-right"></i>
-                        <span>Sign Out</span>
+                        <span>Keluar</span>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </a>
                     </li>
 
@@ -279,10 +266,27 @@
             </li><!-- End Dashboard Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#components-order" data-bs-toggle="collapse" href="#">
+                <i class="bi bi-basket"></i><span>Pesanan</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="components-order" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    <li>
+                        <a href="/order/create">
+                        <i class="bi bi-circle"></i><span>Tambah Pesanan</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/order">
+                        <i class="bi bi-circle"></i><span>Daftar Pesanan</span>
+                        </a>
+                    </li>
+                </ul>
+            </li><!-- End Components Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#components-product" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-box-seam"></i><span>Produk</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="components-product" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="/product">
                         <i class="bi bi-circle"></i><span>Daftar Produk</span>
@@ -302,10 +306,10 @@
             </li><!-- End Components Nav -->
             
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+                <a class="nav-link collapsed" data-bs-target="#components-category" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-box-seam"></i><span>Kategori</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="components-category" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="/category">
                         <i class="bi bi-circle"></i><span>Daftar Kategori</span>
@@ -348,5 +352,7 @@
 
     <!-- Template Main JS File -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    
 </body>
 </html>

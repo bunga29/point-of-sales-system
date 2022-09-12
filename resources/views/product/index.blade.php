@@ -130,10 +130,10 @@
                 url: '/product/' + id,
                 dataType: 'json',
                 success: function (data) {
-                    // document.getElementById('barcode').innerHTML = "";
+                    document.getElementById('barcode').innerHTML = "";
                     const el = document.createElement('div');
                     el.classList.add('row', 'm-2', 'justify-content-center');
-                    el.innerHTML = `{!! DNS1D::getBarcodeHTML('` + data['code'] + `', 'C128') !!}`;
+                    el.innerHTML = `{!! DNS1D::getBarcodeHTML('12345678', 'C128') !!}`;
                     const box = document.getElementById('barcode');
                     box.appendChild(el);
                     $('#detail-modal').modal('show');
