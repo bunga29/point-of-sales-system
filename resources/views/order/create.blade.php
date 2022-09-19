@@ -37,11 +37,10 @@
                         <div class="search-bar">
                             <div id="myDropdown" class="dropdown">
                                 <input class="col-lg-6" type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
-                                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-                                <a hidden class="col-lg-6 dropdown-item" style="width:50%" href="#blog">Blog</a>
-                                <a hidden class="col-lg-6 dropdown-item" style="width:50%" href="#blog">Blog aaa</a>
-                                <a hidden class="col-lg-6 dropdown-item" style="width:50%" href="#blog">aaa ddsafog</a>
-                               
+                                
+                                @foreach($products as $product)
+                                    <a hidden class="col-lg-6 dropdown-item" style="width:50%" onclick="addRow( '<?=$product->code?>' ,'<?=$product->name?>', '<?=$product->selling_price?>')">{{$product->code}} - {{$product->name}}</a>
+                                @endforeach                               
                             </div>
                         </div>
 
@@ -51,16 +50,40 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-body">
-                        safh
+                        <div class="h4">Total Harga</div>
+                        <div class="h1 total-price">0</div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Daftar Produk</h5>
+              <!-- <p>Add <code>.table-bordered</code> for borders on all sides of the table and cells.</p> -->
+              <!-- Bordered Table -->
+              <table class="table table-bordered" id="myTable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Kode</th>
+                    <th scope="col">Nama Produk</th>
+                    <th scope="col">Jumlah</th>
+                    <th scope="col">Harga Satuan</th>
+                    <th scope="col">Harga Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                </tbody>
+              </table>
+              <!-- End Bordered Table -->
             </div>
         </div>
     </section>
 
     
     <script>
-
+    
         function filterFunction() {
             var input, filter, ul, li, a, i;
             input = document.getElementById("myInput");
@@ -77,5 +100,58 @@
                 }
             }
         }
+
+        function addRow(code, name, price) {
+            var table = document.getElementById("myTable");
+            var x = document.getElementById("myTable").rows.length;
+            var row = table.insertRow(x);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            var cell6 = row.insertCell(5);
+            cell1.innerHTML = "<input type='hidden' class='form-control' value='" + code + "'/>" + x;
+            cell2.innerHTML = code;
+            cell3.innerHTML = name;
+            cell4.classList.add("amount");
+            cell4.innerHTML = "<input type='number' style='width: 5em' class='form-control' value='1'/>"
+            cell5.classList.add("cost");
+            cell6.innerHTML = price;
+            cell6.classList.add("total");
+            cell5.innerHTML = price;
+            var $amountInput = $('td.amount > input[type="number"]');
+            $amountInput.on('input', updateTotal);
+        }
+
+        function updateTotal(e){
+            var amount = parseInt(e.target.value);
+            
+            if (!amount || amount < 0)
+                return;
+                
+            var $parentRow = $(e.target).parent().parent();
+            var cost = parseFloat($parentRow.find('.cost').text());
+            var total = (cost * amount);
+            
+            $parentRow.find('.total').text(total);
+            
+            var sum = 0;
+            $(".total").each(function(){
+                sum = sum + Number($(this).text());
+            });
+
+            $('.total-price').text(sum);
+            
+            var parentRow = $(e.target).parent().parent();
+
+            var cost = parseFloat($parentRow.find('.cost').text());
+            
+        }
     </script>
+
+
+
+
+
 @endsection
